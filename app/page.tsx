@@ -20,6 +20,14 @@ export default function Home() {
               {item.name}
             </Link>
           ))}
+
+          <Link
+            target="_blank"
+            href="https://alvaroloyola.dev/cv.pdf"
+            className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
+          >
+            Ver CV
+          </Link>
         </ul>
       </nav>
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
