@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, Github, Twitter } from "lucide-react";
+import { ArrowLeft, Github, Instagram } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -52,15 +52,15 @@ export const Header: React.FC<Props> = ({ project }) => {
 			>
 				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
 					<div className="flex justify-between gap-8">
-						<Link target="_blank" href="https://twitter.com/chronark_">
-							<Twitter
+						<Link target="_blank" href="https://www.instagram.com/alvaaroqk/">
+							<Instagram
 								className={`w-6 h-6 duration-200 hover:font-medium ${isIntersecting
 									? " text-zinc-400 hover:text-zinc-100"
 									: "text-zinc-600 hover:text-zinc-900"
 									} `}
 							/>
 						</Link>
-						<Link target="_blank" href="https://github.com/chronark">
+						<Link target="_blank" href="https://github.com/clikzz">
 							<Github
 								className={`w-6 h-6 duration-200 hover:font-medium ${isIntersecting
 									? " text-zinc-400 hover:text-zinc-100"
