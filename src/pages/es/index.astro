@@ -13,13 +13,13 @@ import Certifications from "@/components/sections/Certifications.astro";
 import TechStack from "@/components/sections/TechStack.astro";
 import Contact from "@/components/sections/Contact.astro";
 
-const locale = "en";
+const locale = "es";
 overwriteGetLocale(() => locale);
 
-const canonical = "https://alvaroloyola.dev";
-const ogTitle = "Alvaro Loyola — Portfolio";
+const canonical = "https://alvaroloyola.dev/es/";
+const ogTitle = "Alvaro Loyola — Portafolio";
 const ogDescription =
-  "Full-stack developer crafting digital experiences with precision and creativity.";
+  "Desarrollador full-stack creando experiencias digitales con precisión y creatividad.";
 ---
 
 <!doctype html>
@@ -34,20 +34,19 @@ const ogDescription =
     <title>{ogTitle}</title>
     <meta name="theme-color" content="#000000" />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href="https://alvaroloyola.dev/" />
+    <link rel="alternate" hreflang="es" href="https://alvaroloyola.dev/es/" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:site_name" content="Alvaro Loyola" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
 
-    <!-- Self-hosted fonts with font-display: swap -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="preload"
@@ -92,8 +91,7 @@ const ogDescription =
     </style>
   </head>
   <body>
-    <!-- Skip to content -->
-    <a href="#main" class="skip-link">Skip to main content</a>
+    <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
     <Header locale={locale} />
     <main id="main">
@@ -112,7 +110,6 @@ const ogDescription =
 
     <div id="cursor-glow" class="cursor-glow" style="opacity: 0;"></div>
 
-    <!-- Consolidated scripts -->
     <script is:inline>
       (function () {
         var glow = document.getElementById("cursor-glow");
@@ -144,7 +141,6 @@ const ogDescription =
       })();
     </script>
 
-    <!-- Expand/collapse (single global handler) -->
     <script is:inline>
       document.querySelectorAll(".expandable-root").forEach(function (root) {
         var btn = root.querySelector(".toggle-btn");
@@ -154,7 +150,6 @@ const ogDescription =
         var collapseText =
           root.getAttribute("data-collapse-label") || "View less";
         var expanded = false;
-
         btn.addEventListener("click", function () {
           expanded = !expanded;
           if (expanded) {
@@ -178,7 +173,6 @@ const ogDescription =
       });
     </script>
 
-    <!-- Structured Data -->
     <script type="application/ld+json" is:inline>
       {
         "@context": "https://schema.org",

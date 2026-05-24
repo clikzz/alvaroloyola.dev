@@ -1,0 +1,179 @@
+---
+import { certifications } from "@/data/content.js";
+import { t } from "@/lib/translate";
+import * as m from "@/paraglide/messages.js";
+
+const INITIAL_COUNT = 3;
+const visibleCerts = certifications.slice(0, INITIAL_COUNT);
+const hiddenCerts = certifications.slice(INITIAL_COUNT);
+const accentHues = ["170", "35", "5", "200", "280"];
+
+function formatDate(dateStr: string): string {
+  const [year, month] = dateStr.split("-");
+  const d = new Date(Number(year), Number(month) - 1);
+  return d.toLocaleDateString("en", { year: "numeric", month: "short" });
+}
+---
+
+<section id="certifications" style="padding: 96px 0; position: relative;">
+  <div
+    style="max-width: 1078px; padding: 0 28px; margin: 0 auto; position: relative;"
+  >
+    <span class="section-number reveal" style="top: -0.15em; left: 0;">03</span>
+
+    <h2
+      class="reveal font-raleway font-semibold tracking-tight text-frost-white"
+      style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
+    >
+      {m.section_certifications_title()}
+    </h2>
+
+    <div
+      class="expandable-root"
+      data-expand-label={m.button_view_more()}
+      data-collapse-label={m.button_view_less()}
+    >
+      <div
+        class="visible-slot grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-10"
+      >
+        {
+          visibleCerts.map((cert, i) => {
+            const hue = accentHues[i % accentHues.length];
+            return (
+              <div
+                class="reveal group"
+                style={`transition-delay: ${i * 80 + 200}ms`}
+              >
+                <a
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block py-5 transition-all duration-400"
+                  style="text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.04);"
+                >
+                  <div style="display: flex; align-items: flex-start; gap: 10px;">
+                    <span
+                      style={`
+                      display: inline-block;
+                      width: 5px;
+                      height: 5px;
+                      border-radius: 50%;
+                      background: hsl(${hue}, 60%, 65%);
+                      box-shadow: 0 0 6px hsl(${hue}, 60%, 65%, 0.5);
+                      flex-shrink: 0;
+                      margin-top: 7px;
+                      transition: transform 0.3s ease;
+                    `}
+                      class="group-hover:scale-150"
+                    />
+                    <div class="min-w-0">
+                      <h3
+                        class="font-dm-sans font-semibold tracking-tight text-frost-white transition-colors duration-400"
+                        style="font-size: 15px; line-height: 1.25; letter-spacing: -0.01em;"
+                      >
+                        {t(cert.name)}
+                      </h3>
+                      <div
+                        class="flex items-center flex-wrap mt-1"
+                        style="gap: 8px;"
+                      >
+                        <span
+                          class="font-dm-sans font-normal tracking-tight"
+                          style="font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.01em;"
+                        >
+                          {cert.issuer}
+                        </span>
+                        <span style="color: rgba(255,255,255,0.1);">·</span>
+                        <span
+                          class="font-dm-sans font-normal tracking-tight"
+                          style="font-size: 11px; color: rgba(255,255,255,0.18); letter-spacing: 0.04em;"
+                        >
+                          {formatDate(cert.date)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      {
+        hiddenCerts.length > 0 && (
+          <>
+            <div class="hidden-slot hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-10 mt-2">
+              {hiddenCerts.map((cert, i) => {
+                const hue = accentHues[(i + INITIAL_COUNT) % accentHues.length];
+                return (
+                  <div class="reveal group">
+                    <a
+                      href={cert.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="block py-5 transition-all duration-400"
+                      style="text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.04);"
+                    >
+                      <div style="display: flex; align-items: flex-start; gap: 10px;">
+                        <span
+                          style={`
+                          display: inline-block;
+                          width: 5px;
+                          height: 5px;
+                          border-radius: 50%;
+                          background: hsl(${hue}, 60%, 65%);
+                          box-shadow: 0 0 6px hsl(${hue}, 60%, 65%, 0.5);
+                          flex-shrink: 0;
+                          margin-top: 7px;
+                        `}
+                        />
+                        <div class="min-w-0">
+                          <h3
+                            class="font-dm-sans font-semibold tracking-tight text-frost-white"
+                            style="font-size: 15px; line-height: 1.25; letter-spacing: -0.01em;"
+                          >
+                            {t(cert.name)}
+                          </h3>
+                          <div
+                            class="flex items-center flex-wrap mt-1"
+                            style="gap: 8px;"
+                          >
+                            <span
+                              class="font-dm-sans font-normal tracking-tight"
+                              style="font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.01em;"
+                            >
+                              {cert.issuer}
+                            </span>
+                            <span style="color: rgba(255,255,255,0.1);">·</span>
+                            <span
+                              class="font-dm-sans font-normal tracking-tight"
+                              style="font-size: 11px; color: rgba(255,255,255,0.18); letter-spacing: 0.04em;"
+                            >
+                              {formatDate(cert.date)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+            <div style="text-align: center; margin-top: 48px;">
+              <button
+                type="button"
+                class="toggle-btn ghost-action"
+                style="padding: 6px 24px;"
+                aria-expanded="false"
+              >
+                {m.button_view_more()}
+              </button>
+            </div>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+

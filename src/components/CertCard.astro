@@ -1,0 +1,56 @@
+---
+import type { Certification } from "@/data/content.js";
+import { t } from "@/lib/translate";
+
+interface Props {
+  cert: Certification;
+  index: number;
+}
+
+const { cert, index } = Astro.props;
+const accentHues = ["170", "35", "5", "200", "45"];
+const hue = accentHues[index % accentHues.length];
+
+function formatDate(dateStr: string): string {
+  const [year, month] = dateStr.split("-");
+  const d = new Date(Number(year), Number(month) - 1);
+  return d.toLocaleDateString("en", { year: "numeric", month: "short" });
+}
+---
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+  <div style="display: flex; align-items: flex-start; gap: 10px;">
+    <span
+      style="
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: hsl({hue}, 60%, 65%);
+        box-shadow: 0 0 8px hsl({hue}, 60%, 65%, 0.5);
+        flex-shrink: 0;
+        margin-top: 6px;
+      "
+    />
+    <h3
+      class="font-dm-sans font-semibold tracking-tight text-frost-white"
+      style="font-size: 16px; line-height: 1.25; letter-spacing: -0.01em;"
+    >
+      {t(cert.name)}
+    </h3>
+  </div>
+  <div style="padding-left: 16px; display: flex; flex-direction: column; gap: 6px;">
+    <p
+      class="font-dm-sans font-normal tracking-tight"
+      style="font-size: 12px; line-height: 1.32; color: rgba(255, 255, 255, 0.32); letter-spacing: 0.01em;"
+    >
+      {cert.issuer}
+    </p>
+    <span
+      class="font-dm-sans font-normal tracking-tight"
+      style="font-size: 11px; line-height: 1.58; color: rgba(255, 255, 255, 0.18); letter-spacing: 0.04em;"
+    >
+      {formatDate(cert.date)}
+    </span>
+  </div>
+</div>

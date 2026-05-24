@@ -1,0 +1,262 @@
+---
+import { projects } from "@/data/content.js";
+import { t } from "@/lib/translate";
+import * as m from "@/paraglide/messages.js";
+
+const INITIAL_COUNT = 3;
+const visibleProjects = projects.slice(0, INITIAL_COUNT);
+const hiddenProjects = projects.slice(INITIAL_COUNT);
+const accentHues = ["170", "35", "5", "200", "45", "15"];
+---
+
+<section id="projects" style="padding: 96px 0; position: relative;">
+  <div
+    style="max-width: 1078px; padding: 0 28px; margin: 0 auto; position: relative;"
+  >
+    <span class="section-number reveal" style="top: -0.15em; left: 0;">01</span>
+
+    <h2
+      class="reveal font-raleway font-semibold tracking-tight text-frost-white"
+      style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
+    >
+      {m.section_projects_title()}
+    </h2>
+
+    <div
+      class="expandable-root"
+      data-expand-label={m.button_view_more()}
+      data-collapse-label={m.button_view_less()}
+    >
+      <div class="visible-slot" style="display: flex; flex-direction: column;">
+        {
+          visibleProjects.map((project, i) => {
+            const hue = accentHues[i % accentHues.length];
+            return (
+              <article
+                class="reveal group"
+                style={`
+                transition-delay: ${i * 100 + 200}ms;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                ${i === 0 ? "border-top: 1px solid rgba(255,255,255,0.05);" : ""}
+              `}
+              >
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block py-8 md:py-9 transition-all duration-500"
+                  style="text-decoration: none;"
+                >
+                  <div
+                    class="flex flex-col md:flex-row md:items-start"
+                    style="gap: 16px 40px;"
+                  >
+                    {/* Left: year + dot */}
+                    <div
+                      class="flex items-center shrink-0"
+                      style="gap: 10px; min-width: 100px;"
+                    >
+                      <span
+                        style={`
+                        display: inline-block;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        background: hsl(${hue}, 60%, 65%);
+                        box-shadow: 0 0 8px hsl(${hue}, 60%, 65%, 0.5);
+                        flex-shrink: 0;
+                      `}
+                      />
+                      <span
+                        class="font-dm-sans font-normal tracking-tight"
+                        style="font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em;"
+                      >
+                        {project.year}
+                      </span>
+                    </div>
+
+                    {/* Center: content */}
+                    <div class="flex-1 min-w-0">
+                      <h3
+                        class="font-dm-sans font-semibold tracking-tight text-frost-white transition-colors duration-400 group-hover:text-frost-white"
+                        style="font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 6px;"
+                      >
+                        {t(project.title)}
+                      </h3>
+                      <p
+                        class="font-dm-sans font-normal tracking-tight"
+                        style="font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.38); letter-spacing: -0.005em; max-width: 560px;"
+                      >
+                        {t(project.shortDescription)}
+                      </p>
+                      <div class="flex flex-wrap mt-4" style="gap: 8px;">
+                        {project.tags.map((tag) => (
+                          <span
+                            style={`
+                            font-family: "DM Sans", sans-serif;
+                            font-size: 11px;
+                            font-weight: 500;
+                            line-height: 1;
+                            padding: 4px 12px;
+                            border-radius: 4px;
+                            color: hsl(${hue}, 50%, 75%);
+                            background: hsl(${hue}, 40%, 12%);
+                            letter-spacing: 0.02em;
+                            transition: all 0.3s ease;
+                          `}
+                            class:list={["group-hover:brightness-125"]}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Right: arrow */}
+                    <div
+                      class="hidden md:flex items-center shrink-0 transition-all duration-400"
+                      style="opacity: 0; transform: translateX(-8px); margin-top: 4px;"
+                      class="group-hover:opacity-100 group-hover:translate-x-0"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M6 3l5 5-5 5"
+                          stroke="rgba(255,255,255,0.3)"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            );
+          })
+        }
+      </div>
+
+      {
+        hiddenProjects.length > 0 && (
+          <>
+            <div class="hidden-slot hidden flex flex-col">
+              {hiddenProjects.map((project, i) => {
+                const hue = accentHues[(i + INITIAL_COUNT) % accentHues.length];
+                return (
+                  <article
+                    class="reveal group"
+                    style="border-bottom: 1px solid rgba(255,255,255,0.05);"
+                  >
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="block py-8 md:py-9 transition-all duration-500"
+                      style="text-decoration: none;"
+                    >
+                      <div
+                        class="flex flex-col md:flex-row md:items-start"
+                        style="gap: 16px 40px;"
+                      >
+                        <div
+                          class="flex items-center shrink-0"
+                          style="gap: 10px; min-width: 100px;"
+                        >
+                          <span
+                            style={`
+                            display: inline-block;
+                            width: 6px;
+                            height: 6px;
+                            border-radius: 50%;
+                            background: hsl(${hue}, 60%, 65%);
+                            box-shadow: 0 0 8px hsl(${hue}, 60%, 65%, 0.5);
+                            flex-shrink: 0;
+                          `}
+                          />
+                          <span
+                            class="font-dm-sans font-normal tracking-tight"
+                            style="font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em;"
+                          >
+                            {project.year}
+                          </span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                          <h3
+                            class="font-dm-sans font-semibold tracking-tight text-frost-white"
+                            style="font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 6px;"
+                          >
+                            {t(project.title)}
+                          </h3>
+                          <p
+                            class="font-dm-sans font-normal tracking-tight"
+                            style="font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.38); letter-spacing: -0.005em; max-width: 560px;"
+                          >
+                            {t(project.shortDescription)}
+                          </p>
+                          <div class="flex flex-wrap mt-4" style="gap: 8px;">
+                            {project.tags.map((tag) => (
+                              <span
+                                style={`
+                                font-family: "DM Sans", sans-serif;
+                                font-size: 11px;
+                                font-weight: 500;
+                                line-height: 1;
+                                padding: 4px 12px;
+                                border-radius: 4px;
+                                color: hsl(${hue}, 50%, 75%);
+                                background: hsl(${hue}, 40%, 12%);
+                                letter-spacing: 0.02em;
+                              `}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div
+                          class="hidden md:flex items-center shrink-0"
+                          style="opacity: 0; transform: translateX(-8px); margin-top: 4px;"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                          >
+                            <path
+                              d="M6 3l5 5-5 5"
+                              stroke="rgba(255,255,255,0.3)"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  </article>
+                );
+              })}
+            </div>
+            <div style="text-align: center; margin-top: 48px;">
+              <button
+                type="button"
+                class="toggle-btn ghost-action"
+                style="padding: 6px 24px;"
+                aria-expanded="false"
+              >
+                {m.button_view_more()}
+              </button>
+            </div>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,109 @@
+---
+import { techStack } from "@/data/content.js";
+import * as m from "@/paraglide/messages.js";
+
+const categoryLabels: Record<string, string> = {
+  frontend: m.tech_category_frontend(),
+  backend: m.tech_category_backend(),
+  devops: m.tech_category_devops(),
+  tools: m.tech_category_tools(),
+  languages: m.tech_category_languages(),
+};
+
+const categoryOrder = ["frontend", "backend", "devops", "tools", "languages"] as const;
+
+const categoryHues: Record<string, string> = {
+  frontend: "170",
+  backend: "35",
+  devops: "5",
+  tools: "220",
+  languages: "280",
+};
+
+const grouped: Record<string, typeof techStack> = {};
+techStack.forEach((item) => {
+  if (!grouped[item.category]) grouped[item.category] = [];
+  grouped[item.category].push(item);
+});
+---
+
+<section id="tech" style="padding: 96px 0; position: relative;">
+  <div style="max-width: 1078px; padding: 0 28px; margin: 0 auto; position: relative;">
+    <span class="section-number reveal" style="top: -0.15em; left: 0;">04</span>
+
+    <h2
+      class="reveal font-raleway font-semibold tracking-tight text-frost-white"
+      style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
+    >
+      {m.section_tech_title()}
+    </h2>
+
+    <div style="display: flex; flex-direction: column; gap: 48px;">
+      {categoryOrder.map((cat, ci) => {
+        const items = grouped[cat];
+        if (!items || items.length === 0) return null;
+        const hue = categoryHues[cat] ?? "0";
+
+        return (
+          <div
+            class="reveal"
+            style={`transition-delay: ${ci * 100 + 200}ms;`}
+          >
+            <div class="flex flex-col md:flex-row md:items-center" style="gap: 24px 40px;">
+              {/* Left: category label */}
+              <div class="flex items-center shrink-0" style="gap: 12px; min-width: 140px;">
+                <span
+                  style={`
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 2px;
+                    background: hsl(${hue}, 60%, 65%);
+                    box-shadow: 0 0 12px hsl(${hue}, 60%, 65%, 0.5);
+                    flex-shrink: 0;
+                  `}
+                />
+                <h3
+                  class="font-dm-sans font-semibold tracking-tight text-frost-white"
+                  style="font-size: 14px; line-height: 1; letter-spacing: 0.04em; white-space: nowrap;"
+                >
+                  {categoryLabels[cat] ?? cat}
+                </h3>
+              </div>
+
+              {/* Divider line - desktop only */}
+              <div class="hidden md:block shrink-0" style="width: 1px; height: 24px; background: rgba(255,255,255,0.06); align-self: center;" />
+
+              {/* Right: tech items */}
+              <div class="flex flex-wrap flex-1" style="gap: 10px; align-items: center;">
+                {items.map((item) => (
+                  <span
+                    style={`
+                      font-family: "DM Sans", sans-serif;
+                      font-size: 14px;
+                      font-weight: 400;
+                      line-height: 1;
+                      letter-spacing: -0.01em;
+                      padding: 8px 18px;
+                      border-radius: 75.024px;
+                      color: rgba(255, 255, 255, 0.65);
+                      background: transparent;
+                      border: 1px solid rgba(255, 255, 255, 0.08);
+                      transition: all 0.4s ease;
+                      cursor: default;
+                      white-space: nowrap;
+                    `}
+                    onmouseover={`this.style.borderColor='hsl(${hue}, 50%, 50%)'; this.style.color='#ffffff'; this.style.background='hsla(${hue}, 50%, 50%, 0.08)'; this.style.boxShadow='0 0 20px hsla(${hue}, 50%, 50%, 0.15)'; this.style.transform='translateY(-2px)'`}
+                    onmouseout={`this.style.borderColor='rgba(255,255,255,0.08)'; this.style.color='rgba(255,255,255,0.65)'; this.style.background='transparent'; this.style.boxShadow='none'; this.style.transform='translateY(0)'`}
+                  >
+                    {item.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

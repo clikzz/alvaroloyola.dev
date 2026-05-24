@@ -1,0 +1,454 @@
+---
+import * as m from "@/paraglide/messages.js";
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === "en";
+
+const navLinks = [
+  { label: m.nav_projects(), href: "#projects", num: "01" },
+  { label: m.nav_experience(), href: "#experience", num: "02" },
+  { label: m.nav_certifications(), href: "#certifications", num: "03" },
+  { label: m.nav_tech(), href: "#tech", num: "04" },
+  { label: m.nav_contact(), href: "#contact", num: "05" },
+];
+---
+
+<header
+  class="fixed top-0 left-0 right-0 z-50"
+  style="
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    background: rgba(0, 0, 0, 0.65);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  "
+  role="banner"
+>
+  <div
+    id="scroll-progress"
+    aria-hidden="true"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 1px;
+      width: 0%;
+      background: linear-gradient(90deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37));
+      transition: width 0.1s linear;
+      z-index: 1;
+    "
+  />
+
+  <div
+    class="mx-auto grid items-center"
+    style="max-width: 1078px; padding: 0 28px; height: 68px; grid-template-columns: 1fr auto 1fr;"
+  >
+    <a
+      href={isEn ? "/" : "/es/"}
+      class="text-frost-white font-dm-sans font-semibold tracking-tight transition-opacity duration-300 hover:opacity-70 justify-self-start"
+      style="font-size: 18px; line-height: 1; letter-spacing: -0.02em;"
+      aria-label="Home"
+    >
+      al
+    </a>
+
+    <nav class="hidden md:flex items-center justify-self-center" style="gap: 28px;" aria-label="Main navigation">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          data-nav-link
+          class="text-frost-white/60 font-dm-sans font-normal tracking-tight transition-all duration-300 hover:text-frost-white"
+          style="font-size: 12px; line-height: 1.32; letter-spacing: 0.01em;"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center justify-self-end" style="gap: 4px;">
+      <div class="hidden md:flex items-center" style="gap: 4px;">
+        <a
+          href="/"
+          class="font-dm-sans font-medium tracking-tight transition-all duration-300 inline-flex items-center"
+          style="font-size: 11px; line-height: 1; padding: 10px 14px; min-height: 44px; border-radius: 75.024px; letter-spacing: 0.02em; text-decoration: none;"
+          aria-label="Switch to English"
+          aria-current={isEn ? "page" : undefined}
+          class:list={[
+            isEn
+              ? "bg-frost-white text-midnight-canvas"
+              : "bg-transparent text-whisper-gray hover:text-frost-white hover:bg-white/5",
+          ]}
+        >
+          EN
+        </a>
+        <a
+          href="/es/"
+          class="font-dm-sans font-medium tracking-tight transition-all duration-300 inline-flex items-center"
+          style="font-size: 11px; line-height: 1; padding: 10px 14px; min-height: 44px; border-radius: 75.024px; letter-spacing: 0.02em; text-decoration: none;"
+          aria-label="Cambiar a Español"
+          aria-current={!isEn ? "page" : undefined}
+          class:list={[
+            !isEn
+              ? "bg-frost-white text-midnight-canvas"
+              : "bg-transparent text-whisper-gray hover:text-frost-white hover:bg-white/5",
+          ]}
+        >
+          ES
+        </a>
+      </div>
+
+      <button
+        id="menu-trigger"
+        type="button"
+        class="md:hidden relative flex items-center justify-center"
+        style="width: 44px; height: 44px; background: none; border: none; cursor: pointer;"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="menu-overlay"
+      >
+        <div class="menu-icon relative" style="width: 20px; height: 14px;">
+          <span class="menu-icon-line absolute left-0 w-full" style="top: 0; height: 1.5px; background: #ffffff; border-radius: 1px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);" />
+          <span class="menu-icon-line absolute left-0 w-3/4" style="top: 6px; height: 1.5px; background: #ffffff; border-radius: 1px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);" />
+          <span class="menu-icon-line absolute left-0 w-1/2" style="top: 12px; height: 1.5px; background: #ffffff; border-radius: 1px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);" />
+        </div>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MOBILE MENU ===== -->
+<div
+  id="menu-overlay"
+  class="fixed inset-0 z-[60] pointer-events-none md:hidden"
+  style="opacity: 0;"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation menu"
+>
+  <div
+    id="menu-backdrop"
+    style="
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+    "
+  />
+
+  <div
+    id="menu-veil"
+    aria-hidden="true"
+    style="
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 85% 5%, rgba(160, 224, 171, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(165, 45, 37, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 172, 46, 0.06) 0%, transparent 50%);
+      animation: veil-pulse 8s ease-in-out infinite;
+      pointer-events: none;
+    "
+  />
+
+  <div
+    id="menu-portal"
+    aria-hidden="true"
+    style="
+      position: fixed;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: radial-gradient(circle, rgba(160,224,171,0.08), rgba(255,172,46,0.04), transparent 70%);
+      transform: scale(0);
+      opacity: 0;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      top: 28px;
+      right: 28px;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    "
+  />
+
+  <nav
+    id="menu-content"
+    class="absolute inset-0 flex flex-col items-center justify-center"
+    style="opacity: 0; gap: 12px; padding: 28px;"
+    aria-label="Mobile navigation"
+  >
+    <button
+      id="menu-close"
+      type="button"
+      class="absolute flex items-center justify-center"
+      style="
+        top: 28px;
+        right: 28px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.03);
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: all 0.4s ease;
+        opacity: 0;
+        transform: scale(0.6) rotate(-90deg);
+      "
+      aria-label="Close menu"
+      onmouseover="this.style.borderColor='rgba(255,255,255,0.35)'; this.style.color='#ffffff'; this.style.background='rgba(255,255,255,0.06)'; this.style.transform='scale(1.05) rotate(0deg)'"
+      onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'; this.style.color='rgba(255,255,255,0.5)'; this.style.background='rgba(255,255,255,0.03)'; this.style.transform='scale(1) rotate(0deg)'"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 2l10 10M12 2l-10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    {navLinks.map((link, i) => (
+      <a
+        href={link.href}
+        data-menu-link
+        class="menu-link block font-raleway font-semibold tracking-tight text-frost-white text-center"
+        style={`
+          font-size: clamp(36px, 8vw, 64px);
+          line-height: 1.05;
+          letter-spacing: -0.04em;
+          text-decoration: none;
+          opacity: 0;
+          transform: translateY(60px) scale(0.8);
+          transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 80}ms,
+                      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 80}ms,
+                      color 0.3s ease;
+        `}
+      >
+        <span
+          style="
+            display: inline-block;
+            font-size: 0.35em;
+            vertical-align: super;
+            opacity: 0.3;
+            margin-right: 0.2em;
+            letter-spacing: 0.02em;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+          "
+          aria-hidden="true"
+        >
+          {link.num}
+        </span>
+        <span>{link.label}</span>
+      </a>
+    ))}
+
+    <div class="flex items-center mt-12" style="gap: 8px; opacity: 0; transform: translateY(40px);" id="menu-locale">
+      <a
+        href="/"
+        class="font-dm-sans font-medium tracking-tight transition-all duration-300 inline-flex items-center"
+        style="font-size: 14px; line-height: 1; padding: 10px 22px; min-height: 44px; border-radius: 75.024px; letter-spacing: 0.03em; text-decoration: none;"
+        aria-label="Switch to English"
+        class:list={[
+          isEn
+            ? "bg-frost-white text-midnight-canvas"
+            : "bg-transparent text-frost-white/40 hover:text-frost-white hover:bg-white/5 border border-white/10",
+        ]}
+      >
+        EN
+      </a>
+      <a
+        href="/es/"
+        class="font-dm-sans font-medium tracking-tight transition-all duration-300 inline-flex items-center"
+        style="font-size: 14px; line-height: 1; padding: 10px 22px; min-height: 44px; border-radius: 75.024px; letter-spacing: 0.03em; text-decoration: none;"
+        aria-label="Cambiar a Español"
+        class:list={[
+          !isEn
+            ? "bg-frost-white text-midnight-canvas"
+            : "bg-transparent text-frost-white/40 hover:text-frost-white hover:bg-white/5 border border-white/10",
+        ]}
+      >
+        ES
+      </a>
+    </div>
+  </nav>
+</div>
+
+<style is:inline>
+  @keyframes veil-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .menu-link:hover {
+    color: transparent !important;
+    background: linear-gradient(90deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById("scroll-progress");
+    if (bar) {
+      window.addEventListener("scroll", function () {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = Math.min(progress, 100) + "%";
+      });
+    }
+
+    var desktopLinks = document.querySelectorAll("[data-nav-link]");
+    if (desktopLinks.length > 0) {
+      var sections = [];
+      desktopLinks.forEach(function (link) {
+        var href = link.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        var section = document.querySelector(href);
+        if (section) sections.push({ link: link, section: section });
+      });
+
+      var navObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              desktopLinks.forEach(function (l) {
+                l.style.color = "rgba(255, 255, 255, 0.6)";
+                l.style.fontWeight = "400";
+              });
+              var active = Array.from(desktopLinks).find(function (l) {
+                return l.getAttribute("href") === "#" + entry.target.id;
+              });
+              if (active) {
+                active.style.color = "#ffffff";
+                active.style.fontWeight = "500";
+              }
+            }
+          });
+        },
+        { threshold: 0.3, rootMargin: "-80px 0px -20% 0px" }
+      );
+      sections.forEach(function (s) { navObserver.observe(s.section); });
+    }
+
+    // ===== MOBILE MENU =====
+    var trigger = document.getElementById("menu-trigger");
+    var overlay = document.getElementById("menu-overlay");
+    var portal = document.getElementById("menu-portal");
+    var content = document.getElementById("menu-content");
+    var closeBtn = document.getElementById("menu-close");
+    var menuLinks = document.querySelectorAll("[data-menu-link]");
+    var menuLocale = document.getElementById("menu-locale");
+    var lines = document.querySelectorAll(".menu-icon-line");
+    var isOpen = false;
+
+    function openMenu() {
+      isOpen = true;
+      trigger.setAttribute("aria-expanded", "true");
+      trigger.setAttribute("aria-label", "Close menu");
+      var btnRect = trigger.getBoundingClientRect();
+      var centerX = btnRect.left + btnRect.width / 2;
+      var centerY = btnRect.top + btnRect.height / 2;
+      var maxRadius = Math.sqrt(Math.max(
+        centerX * centerX + centerY * centerY,
+        (window.innerWidth - centerX) * (window.innerWidth - centerX) + centerY * centerY,
+        centerX * centerX + (window.innerHeight - centerY) * (window.innerHeight - centerY),
+        (window.innerWidth - centerX) * (window.innerWidth - centerX) + (window.innerHeight - centerY) * (window.innerHeight - centerY)
+      ));
+
+      portal.style.top = centerY + "px";
+      portal.style.left = centerX + "px";
+      portal.style.width = "20px";
+      portal.style.height = "20px";
+      portal.style.marginLeft = "-10px";
+      portal.style.marginTop = "-10px";
+
+      overlay.classList.remove("pointer-events-none");
+      overlay.style.opacity = "1";
+      requestAnimationFrame(function () {
+        portal.style.opacity = "1";
+        portal.style.transform = "scale(" + (maxRadius * 2 / 20) + ")";
+      });
+
+      content.style.opacity = "1";
+      content.style.transition = "opacity 0.3s ease";
+      if (closeBtn) {
+        closeBtn.style.transition = "all 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s";
+        closeBtn.style.opacity = "1";
+        closeBtn.style.transform = "scale(1) rotate(0deg)";
+      }
+      setTimeout(function () {
+        menuLinks.forEach(function (link) {
+          link.style.opacity = "1";
+          link.style.transform = "translateY(0) scale(1)";
+        });
+        if (menuLocale) {
+          menuLocale.style.transition = "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s";
+          menuLocale.style.opacity = "1";
+          menuLocale.style.transform = "translateY(0)";
+        }
+      }, 350);
+
+      if (lines[0]) { lines[0].style.top = "6px"; lines[0].style.transform = "rotate(45deg)"; lines[0].style.width = "100%"; }
+      if (lines[1]) lines[1].style.opacity = "0";
+      if (lines[2]) { lines[2].style.top = "6px"; lines[2].style.transform = "rotate(-45deg)"; lines[2].style.width = "100%"; }
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu() {
+      if (!isOpen) return;
+      isOpen = false;
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("aria-label", "Open menu");
+
+      menuLinks.forEach(function (link) {
+        link.style.opacity = "0";
+        link.style.transform = "translateY(60px) scale(0.8)";
+      });
+      if (closeBtn) {
+        closeBtn.style.transition = "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
+        closeBtn.style.opacity = "0";
+        closeBtn.style.transform = "scale(0.6) rotate(-90deg)";
+      }
+      if (menuLocale) {
+        menuLocale.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        menuLocale.style.opacity = "0";
+        menuLocale.style.transform = "translateY(40px)";
+      }
+      setTimeout(function () { content.style.opacity = "0"; }, 200);
+      setTimeout(function () {
+        portal.style.transform = "scale(0)";
+        portal.style.opacity = "0";
+      }, 150);
+      setTimeout(function () {
+        overlay.classList.add("pointer-events-none");
+        overlay.style.opacity = "0";
+      }, 500);
+
+      if (lines[0]) { lines[0].style.top = "0"; lines[0].style.transform = "rotate(0)"; lines[0].style.width = "100%"; }
+      if (lines[1]) lines[1].style.opacity = "1";
+      if (lines[2]) { lines[2].style.top = "12px"; lines[2].style.transform = "rotate(0)"; lines[2].style.width = "50%"; }
+      document.body.style.overflow = "";
+    }
+
+    trigger.addEventListener("click", function () { if (isOpen) closeMenu(); else openMenu(); });
+    if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        var href = link.getAttribute("href");
+        closeMenu();
+        setTimeout(function () {
+          if (href && href.startsWith("#")) {
+            var target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 600);
+      });
+    });
+  })();
+</script>

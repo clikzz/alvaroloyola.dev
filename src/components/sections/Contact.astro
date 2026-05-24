@@ -1,0 +1,105 @@
+---
+import * as m from "@/paraglide/messages.js";
+
+const email = "hola@alvaroloyola.dev";
+---
+
+<section id="contact" style="padding: 96px 0 120px; position: relative;">
+  <div
+    style="max-width: 1078px; padding: 0 28px; margin: 0 auto; position: relative;"
+  >
+    <!-- Section number -->
+    <span class="section-number reveal" style="top: -0.15em; left: 0;">05</span>
+
+    <h2
+      class="reveal font-raleway font-semibold tracking-tight text-frost-white"
+      style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
+    >
+      {m.section_contact_title()}
+    </h2>
+
+    <div
+      class="reveal"
+      style="display: flex; flex-direction: column; gap: 48px;"
+    >
+      <div class="flex flex-col md:flex-row md:items-end" style="gap: 48px;">
+        <div class="flex-1">
+          <p
+            class="font-dm-sans font-normal tracking-tight"
+            style="font-size: 12px; line-height: 1.32; margin-bottom: 16px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.03em;"
+          >
+            {m.contact_email_label()}
+          </p>
+          <a
+            href={`mailto:${email}`}
+            class="font-raleway font-semibold tracking-tight text-frost-white transition-all duration-300"
+            style="
+              font-size: clamp(32px, 5vw, 56px);
+              line-height: 1.1;
+              letter-spacing: -0.03em;
+            "
+            onmouseover="this.style.color='rgba(255,255,255,0.6)'"
+            onmouseout="this.style.color='#ffffff'"
+          >
+            {email}
+          </a>
+        </div>
+
+        <div class="flex items-center" style="gap: 14px;">
+          <a
+            href={`mailto:${email}`}
+            class="ghost-action inline-flex items-center"
+            style="padding: 6px 24px; gap: 8px;"
+          >
+            {m.button_send_email()}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M2 2h8v8M10 2L1 11"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <button
+            type="button"
+            id="copy-email-btn"
+            class="ghost-action inline-flex items-center"
+            style="padding: 6px 24px;"
+            data-email={email}
+            data-success={m.contact_copy_success()}
+            data-label={m.contact_copy_email()}
+          >
+            {m.contact_copy_email()}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  var btn = document.getElementById("copy-email-btn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var email = btn.getAttribute("data-email");
+      var successText = btn.getAttribute("data-success") || "Copied!";
+      var originalText = btn.getAttribute("data-label") || "Copy email";
+      if (!email) return;
+      try {
+        navigator.clipboard.writeText(email).then(function () {
+          btn.style.minWidth = btn.offsetWidth + "px";
+          btn.textContent = successText;
+          btn.style.color = "rgb(160, 224, 171)";
+          setTimeout(function () {
+            btn.textContent = originalText;
+            btn.style.color = "";
+            btn.style.minWidth = "";
+          }, 2000);
+        });
+      } catch (e) {
+        window.location.href = "mailto:" + email;
+      }
+    });
+  }
+</script>

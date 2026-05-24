@@ -1,0 +1,60 @@
+---
+import type { Project } from "@/data/content.js";
+import { t } from "@/lib/translate";
+
+interface Props {
+  project: Project;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const accentHues = ["170", "35", "5", "200", "45", "15"];
+const hue = accentHues[index % accentHues.length];
+---
+
+<div style="display: flex; flex-direction: column; gap: 20px;">
+  <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;">
+    <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span
+          style="
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: hsl({hue}, 60%, 65%);
+            box-shadow: 0 0 8px hsl({hue}, 60%, 65%, 0.5);
+            flex-shrink: 0;
+          "
+        />
+        <h3
+          class="font-dm-sans font-semibold tracking-tight text-frost-white"
+          style="font-size: 18px; line-height: 1.22; letter-spacing: -0.01em;"
+        >
+          {t(project.title)}
+        </h3>
+      </div>
+      <span
+        class="font-dm-sans font-normal tracking-tight"
+        style="font-size: 11px; line-height: 1.58; color: rgba(255, 255, 255, 0.2); letter-spacing: 0.04em;"
+      >
+        {project.year}
+      </span>
+    </div>
+  </div>
+
+  <p
+    class="font-dm-sans font-normal tracking-tight"
+    style="font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.4); letter-spacing: -0.005em;"
+  >
+    {t(project.shortDescription)}
+  </p>
+
+  <div class="flex flex-wrap" style="gap: 8px;">
+    {project.tags.map((tag) => (
+      <span class="ghost-pill">
+        {tag}
+      </span>
+    ))}
+  </div>
+</div>
