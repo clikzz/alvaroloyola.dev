@@ -29,5 +29,8 @@
   "tech_category_devops": "DevOps",
   "tech_category_tools": "Tools",
   "tech_category_languages": "Languages",
-  "experience_present": "Present"
+  "experience_present": "Present",
+  "contact_phone_label": "Phone",
+  "contact_copy_phone": "Copy phone",
+  "contact_whatsapp": "WhatsApp"
 }
