@@ -420,8 +420,8 @@
   opacity: 0;
   transform: translateY(100%) skewY(8deg);
   will-change: opacity, transform;
-  padding-top: 0.15em;
-  margin-top: -0.15em;
+  padding: 0.15em 0;
+  margin: -0.15em 0;
 }
 
 .char-reveal.revealed {
