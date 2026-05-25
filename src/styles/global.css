@@ -420,6 +420,8 @@
   opacity: 0;
   transform: translateY(100%) skewY(8deg);
   will-change: opacity, transform;
+  padding-top: 0.15em;
+  margin-top: -0.15em;
 }
 
 .char-reveal.revealed {
@@ -503,6 +505,8 @@
 .sweep-text {
   position: relative;
   display: inline-block;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .sweep-text::after {
