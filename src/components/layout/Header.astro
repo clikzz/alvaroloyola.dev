@@ -35,9 +35,11 @@ const navLinks = [
       top: 0;
       left: 0;
       height: 1px;
-      width: 0%;
+      width: 100%;
       background: linear-gradient(90deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37));
-      transition: width 0.1s linear;
+      transform-origin: left;
+      transform: scaleX(0);
+      will-change: transform;
       z-index: 1;
     "
   >
@@ -187,6 +189,7 @@ const navLinks = [
       height: 20px;
       top: 28px;
       right: 28px;
+      will-change: transform, opacity;
       transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     "
   >
@@ -342,8 +345,8 @@ const navLinks = [
         var scrollTop = window.scrollY || document.documentElement.scrollTop;
         var docHeight =
           document.documentElement.scrollHeight - window.innerHeight;
-        var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        bar.style.width = Math.min(progress, 100) + "%";
+        var progress = docHeight > 0 ? scrollTop / docHeight : 0;
+        bar.style.transform = "scaleX(" + Math.min(progress, 1) + ")";
       });
     }
 
