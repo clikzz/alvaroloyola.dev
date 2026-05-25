@@ -1,5 +1,8 @@
 ---
 import * as m from "@/paraglide/messages.js";
+
+const line1 = m.hero_greeting_line1();
+const line2 = m.hero_greeting_line2();
 ---
 
 <section
@@ -22,38 +25,38 @@ import * as m from "@/paraglide/messages.js";
 
   <!-- Animated gradient orbs -->
   <div
-    class="gradient-orb"
-    style="width: 700px; height: 700px; background: radial-gradient(circle, rgba(160, 224, 171, 0.6), transparent 70%); top: -15%; left: -20%; animation: orb-drift-1 20s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 700px; height: 700px; background: radial-gradient(circle, rgba(160, 224, 171, 0.6), transparent 70%); top: -15%; left: -20%; animation: orb-drift-1 20s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 172, 46, 0.5), transparent 70%); top: 10%; right: -15%; animation: orb-drift-2 25s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 172, 46, 0.5), transparent 70%); top: 10%; right: -15%; animation: orb-drift-2 25s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(165, 45, 37, 0.45), transparent 70%); bottom: -10%; left: 25%; animation: orb-drift-3 18s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(165, 45, 37, 0.45), transparent 70%); bottom: -10%; left: 25%; animation: orb-drift-3 18s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 450px; height: 450px; background: radial-gradient(circle, rgba(160, 224, 171, 0.5), transparent 70%); top: 40%; left: 50%; animation: orb-drift-4 22s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 450px; height: 450px; background: radial-gradient(circle, rgba(160, 224, 171, 0.5), transparent 70%); top: 40%; left: 50%; animation: orb-drift-4 22s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(255, 172, 46, 0.4), transparent 70%); bottom: 20%; right: 10%; animation: orb-drift-5 16s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(255, 172, 46, 0.4), transparent 70%); bottom: 20%; right: 10%; animation: orb-drift-5 16s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 300px; height: 300px; background: radial-gradient(circle, rgba(165, 45, 37, 0.5), transparent 70%); top: 60%; left: 5%; animation: orb-drift-6 19s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 300px; height: 300px; background: radial-gradient(circle, rgba(165, 45, 37, 0.5), transparent 70%); top: 60%; left: 5%; animation: orb-drift-6 19s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
   <div
-    class="gradient-orb"
-    style="width: 250px; height: 250px; background: radial-gradient(circle, rgba(160, 224, 171, 0.55), transparent 70%); top: 5%; right: 30%; animation: orb-drift-7 21s ease-in-out infinite;"
+    class="gradient-orb hero-orb-entrance"
+    style="width: 250px; height: 250px; background: radial-gradient(circle, rgba(160, 224, 171, 0.55), transparent 70%); top: 5%; right: 30%; animation: orb-drift-7 21s ease-in-out infinite; animation-delay: 1.5s;"
   >
   </div>
 
@@ -77,6 +80,9 @@ import * as m from "@/paraglide/messages.js";
     DEV
   </div>
 
+  <!-- Scanline accent -->
+  <div class="scanline" id="scanline"></div>
+
   <!-- Hero content -->
   <div
     class="relative text-center"
@@ -86,16 +92,18 @@ import * as m from "@/paraglide/messages.js";
       style="display: flex; flex-direction: column; gap: clamp(12px, 2vw, 20px);"
     >
       <h1
-        class="reveal font-raleway font-bold tracking-tight"
+        class="font-raleway font-bold tracking-tight"
         style="
           font-size: clamp(54px, 8vw, 120px);
           line-height: 0.95;
           letter-spacing: -0.03em;
-          color: #ffffff;
-          transition-delay: 100ms;
         "
+        data-line1={line1}
+        data-line2={line2}
       >
-        <span class="text-gradient">{m.hero_greeting()}</span>
+        <span id="hero-line1" class="sweep-text" aria-label={line1}></span>
+        <br />
+        <span id="hero-line2" class="sweep-text" aria-label={line2}></span>
       </h1>
 
       <p
@@ -105,8 +113,7 @@ import * as m from "@/paraglide/messages.js";
           line-height: 1.45;
           letter-spacing: -0.01em;
           color: rgba(255, 255, 255, 0.55);
-          opacity: 0;
-          animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards;
+          transition-delay: 100ms;
         "
       >
         {m.hero_tagline()}
@@ -114,7 +121,8 @@ import * as m from "@/paraglide/messages.js";
     </div>
 
     <div
-      style="margin-top: clamp(40px, 6vw, 64px); opacity: 0; animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 900ms forwards;"
+      class="spring-entrance"
+      style="margin-top: clamp(40px, 6vw, 64px);"
     >
       <a
         href="#projects"
@@ -143,3 +151,65 @@ import * as m from "@/paraglide/messages.js";
     </svg>
   </div>
 </div>
+
+<script is:inline>
+  (function () {
+    var h1 = document.querySelector('h1[data-line1]');
+    var line1Text = h1 ? h1.getAttribute('data-line1') : '';
+    var line2Text = h1 ? h1.getAttribute('data-line2') : '';
+
+    var gradientStyle = {
+      background: 'linear-gradient(90deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37))',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text'
+    };
+
+    function initLine(elementId, text, baseDelay, useGradient) {
+      var el = document.getElementById(elementId);
+      if (!el) return;
+      text.split('').forEach(function (char, i) {
+        var s = document.createElement('span');
+        s.className = 'char-reveal' + (char === ' ' ? ' space' : '');
+        s.textContent = char === ' ' ? '\u00A0' : char;
+        s.style.animationDelay = (baseDelay + i * 45) + 'ms';
+        if (useGradient) {
+          Object.assign(s.style, gradientStyle);
+        } else {
+          s.style.color = '#ffffff';
+        }
+        el.appendChild(s);
+      });
+      requestAnimationFrame(function () {
+        el.querySelectorAll('.char-reveal').forEach(function (s) {
+          s.classList.add('revealed');
+        });
+        el.classList.add('revealed');
+      });
+    }
+
+    initLine('hero-line1', line1Text, 400, false);
+    initLine('hero-line2', line2Text, 400 + line1Text.length * 45, true);
+
+    var scanline = document.getElementById('scanline');
+    if (scanline) {
+      setTimeout(function () {
+        scanline.classList.add('active');
+      }, 200);
+    }
+
+    var springEl = document.querySelector('.spring-entrance');
+    if (springEl) {
+      setTimeout(function () {
+        springEl.classList.add('revealed');
+      }, 1200);
+    }
+
+    var orbs = document.querySelectorAll('.hero-orb-entrance');
+    orbs.forEach(function (orb, i) {
+      setTimeout(function () {
+        orb.classList.add('revealed');
+      }, 100 + i * 80);
+    });
+  })();
+</script>
