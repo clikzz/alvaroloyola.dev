@@ -1,7 +1,7 @@
 ---
 import { experiences } from "@/data/content.js";
-import { t } from "@/lib/translate";
-import * as m from "@/paraglide/messages.js";
+import I18nText from "@/components/I18nText.astro";
+import { getMessage } from "@/lib/i18n";
 
 const INITIAL_COUNT = 2;
 const visibleExperiences = experiences.slice(0, INITIAL_COUNT);
@@ -26,13 +26,13 @@ const hues = ["170", "35", "5", "200"];
       class="reveal font-raleway font-semibold tracking-tight text-frost-white"
       style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
     >
-      {m.section_experience_title()}
+      <I18nText keyName="section_experience_title" />
     </h2>
 
     <div
       class="expandable-root"
-      data-expand-label={m.button_view_more()}
-      data-collapse-label={m.button_view_less()}
+      data-expand-label={getMessage("en", "button_view_more")}
+      data-collapse-label={getMessage("en", "button_view_less")}
     >
       <div class="visible-slot flex flex-col">
         {
@@ -70,7 +70,7 @@ const hues = ["170", "35", "5", "200"];
                       <br class="md:hidden" /> —{" "}
                       {exp.endDate
                         ? formatDate(exp.endDate)
-                        : m.experience_present()}
+                        : <I18nText keyName="experience_present" />}
                     </span>
                   </div>
 
@@ -86,19 +86,19 @@ const hues = ["170", "35", "5", "200"];
                       class="font-dm-sans font-semibold tracking-tight text-frost-white"
                       style="font-size: 22px; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 4px;"
                     >
-                      {t(exp.role)}
+                      <I18nText value={exp.role} />
                     </h3>
                     <p
                       class="font-dm-sans font-normal tracking-tight"
                       style="font-size: 14px; color: rgba(255,255,255,0.35); letter-spacing: 0.01em;"
                     >
-                      {exp.company} · {t(exp.location)}
+                      {exp.company} · <I18nText value={exp.location} />
                     </p>
                     <p
                       class="font-dm-sans font-normal tracking-tight mt-4"
                       style="font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.42); letter-spacing: -0.005em; max-width: 560px;"
                     >
-                      {t(exp.description)}
+                      <I18nText value={exp.description} />
                     </p>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ const hues = ["170", "35", "5", "200"];
                           <br class="md:hidden" /> —{" "}
                           {exp.endDate
                             ? formatDate(exp.endDate)
-                            : m.experience_present()}
+                            : <I18nText keyName="experience_present" />}
                         </span>
                       </div>
 
@@ -159,19 +159,19 @@ const hues = ["170", "35", "5", "200"];
                           class="font-dm-sans font-semibold tracking-tight text-frost-white"
                           style="font-size: 22px; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 4px;"
                         >
-                          {t(exp.role)}
+                          <I18nText value={exp.role} />
                         </h3>
                         <p
                           class="font-dm-sans font-normal tracking-tight"
                           style="font-size: 14px; color: rgba(255,255,255,0.35); letter-spacing: 0.01em;"
                         >
-                          {exp.company} · {t(exp.location)}
+                          {exp.company} · <I18nText value={exp.location} />
                         </p>
                         <p
                           class="font-dm-sans font-normal tracking-tight mt-4"
                           style="font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.42); letter-spacing: -0.005em; max-width: 560px;"
                         >
-                          {t(exp.description)}
+                          <I18nText value={exp.description} />
                         </p>
                       </div>
                     </div>
@@ -186,7 +186,7 @@ const hues = ["170", "35", "5", "200"];
                 style="padding: 6px 24px;"
                 aria-expanded="false"
               >
-                {m.button_view_more()}
+                <I18nText keyName="button_view_more" />
               </button>
             </div>
           </>
@@ -195,4 +195,3 @@ const hues = ["170", "35", "5", "200"];
     </div>
   </div>
 </section>
-

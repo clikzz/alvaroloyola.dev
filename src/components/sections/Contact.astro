@@ -1,5 +1,6 @@
 ---
-import * as m from "@/paraglide/messages.js";
+import I18nText from "@/components/I18nText.astro";
+import { getMessage } from "@/lib/i18n";
 
 const email = "hey@alvaroloyola.dev";
 const phone = "+569 6456 8222";
@@ -16,7 +17,7 @@ const whatsappUrl = "https://wa.me/56964568222";
       class="reveal font-raleway font-semibold tracking-tight text-frost-white"
       style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
     >
-      {m.section_contact_title()}
+      <I18nText keyName="section_contact_title" />
     </h2>
 
     <div
@@ -30,7 +31,7 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="font-dm-sans font-normal tracking-tight"
             style="font-size: 12px; line-height: 1.32; margin-bottom: 12px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.03em;"
           >
-            {m.contact_email_label()}
+            <I18nText keyName="contact_email_label" />
           </p>
           <a
             href={`mailto:${email}`}
@@ -53,7 +54,7 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="ghost-action inline-flex items-center"
             style="padding: 6px 24px; gap: 8px; margin-bottom: 4px;"
           >
-            {m.button_send_email()}
+            <I18nText keyName="button_send_email" />
             <svg
               width="12"
               height="12"
@@ -75,10 +76,10 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="ghost-action inline-flex items-center"
             style="padding: 6px 24px; margin-bottom: 4px;"
             data-email={email}
-            data-success={m.contact_copy_success()}
-            data-label={m.contact_copy_email()}
+            data-success={getMessage("en", "contact_copy_success")}
+            data-label={getMessage("en", "contact_copy_email")}
           >
-            {m.contact_copy_email()}
+            <I18nText keyName="contact_copy_email" />
           </button>
         </div>
       </div>
@@ -93,7 +94,7 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="font-dm-sans font-normal tracking-tight"
             style="font-size: 12px; line-height: 1.32; margin-bottom: 12px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.03em;"
           >
-            {m.contact_phone_label()}
+            <I18nText keyName="contact_phone_label" />
           </p>
           <a
             href={whatsappUrl}
@@ -120,7 +121,7 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="ghost-action inline-flex items-center"
             style="padding: 6px 24px; gap: 8px; margin-bottom: 4px;"
           >
-            {m.contact_whatsapp()}
+            <I18nText keyName="contact_whatsapp" />
             <svg
               width="12"
               height="12"
@@ -142,10 +143,10 @@ const whatsappUrl = "https://wa.me/56964568222";
             class="ghost-action inline-flex items-center"
             style="padding: 6px 24px; margin-bottom: 4px;"
             data-phone={phone}
-            data-success={m.contact_copy_success()}
-            data-label={m.contact_copy_phone()}
+            data-success={getMessage("en", "contact_copy_success")}
+            data-label={getMessage("en", "contact_copy_phone")}
           >
-            {m.contact_copy_phone()}
+            <I18nText keyName="contact_copy_phone" />
           </button>
         </div>
       </div>

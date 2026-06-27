@@ -1,6 +1,6 @@
 ---
 import type { Project } from "@/data/content.js";
-import { t } from "@/lib/translate";
+import I18nText from "@/components/I18nText.astro";
 
 interface Props {
   project: Project;
@@ -31,7 +31,7 @@ const hue = accentHues[index % accentHues.length];
           class="font-dm-sans font-semibold tracking-tight text-frost-white"
           style="font-size: 18px; line-height: 1.22; letter-spacing: -0.01em;"
         >
-          {t(project.title)}
+          <I18nText value={project.title} />
         </h3>
       </div>
       <span
@@ -47,7 +47,7 @@ const hue = accentHues[index % accentHues.length];
     class="font-dm-sans font-normal tracking-tight"
     style="font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.4); letter-spacing: -0.005em;"
   >
-    {t(project.shortDescription)}
+    <I18nText value={project.shortDescription} />
   </p>
 
   <div class="flex flex-wrap" style="gap: 8px;">

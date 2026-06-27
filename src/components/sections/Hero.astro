@@ -1,8 +1,6 @@
 ---
-import * as m from "@/paraglide/messages.js";
-
-const line1 = m.hero_greeting_line1();
-const line2 = m.hero_greeting_line2();
+import I18nText from "@/components/I18nText.astro";
+import { getMessage } from "@/lib/i18n";
 ---
 
 <section
@@ -99,12 +97,14 @@ const line2 = m.hero_greeting_line2();
           letter-spacing: -0.03em;
           overflow: visible;
         "
-        data-line1={line1}
-        data-line2={line2}
+        data-line1-en={getMessage("en", "hero_greeting_line1")}
+        data-line1-es={getMessage("es", "hero_greeting_line1")}
+        data-line2-en={getMessage("en", "hero_greeting_line2")}
+        data-line2-es={getMessage("es", "hero_greeting_line2")}
       >
-        <span id="hero-line1" class="sweep-text" aria-label={line1}></span>
+        <span id="hero-line1" class="sweep-text" aria-label={getMessage("en", "hero_greeting_line1")}></span>
         <br />
-        <span id="hero-line2" class="sweep-text" aria-label={line2}></span>
+        <span id="hero-line2" class="sweep-text" aria-label={getMessage("en", "hero_greeting_line2")}></span>
       </h1>
 
       <p
@@ -117,7 +117,7 @@ const line2 = m.hero_greeting_line2();
           transition-delay: 100ms;
         "
       >
-        {m.hero_tagline()}
+        <I18nText keyName="hero_tagline" />
       </p>
     </div>
 
@@ -130,7 +130,7 @@ const line2 = m.hero_greeting_line2();
         class="ghost-action inline-flex items-center"
         style="padding: 6px 28px; gap: 10px; font-size: 16px; letter-spacing: -0.01em;"
       >
-        {m.hero_cta()}
+        <I18nText keyName="hero_cta" />
       </a>
     </div>
   </div>
@@ -155,9 +155,7 @@ const line2 = m.hero_greeting_line2();
 
 <script is:inline>
   (function () {
-    var h1 = document.querySelector('h1[data-line1]');
-    var line1Text = h1 ? h1.getAttribute('data-line1') : '';
-    var line2Text = h1 ? h1.getAttribute('data-line2') : '';
+    var h1 = document.querySelector('h1[data-line1-en]');
 
     var gradientStyle = {
       background: 'linear-gradient(90deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37))',
@@ -166,14 +164,16 @@ const line2 = m.hero_greeting_line2();
       backgroundClip: 'text'
     };
 
-    function initLine(elementId, text, baseDelay, useGradient) {
+    function initLine(elementId, text, baseDelay, useGradient, animate) {
       var el = document.getElementById(elementId);
       if (!el) return;
+      el.textContent = '';
+      el.setAttribute('aria-label', text);
       text.split('').forEach(function (char, i) {
         var s = document.createElement('span');
         s.className = 'char-reveal' + (char === ' ' ? ' space' : '');
         s.textContent = char === ' ' ? '\u00A0' : char;
-        s.style.animationDelay = (baseDelay + i * 45) + 'ms';
+        s.style.animationDelay = animate ? (baseDelay + i * 45) + 'ms' : '0ms';
         if (useGradient) {
           Object.assign(s.style, gradientStyle);
         } else {
@@ -183,14 +183,25 @@ const line2 = m.hero_greeting_line2();
       });
       requestAnimationFrame(function () {
         el.querySelectorAll('.char-reveal').forEach(function (s) {
+          if (!animate) s.style.animationDuration = '0.01ms';
           s.classList.add('revealed');
         });
         el.classList.add('revealed');
       });
     }
 
-    initLine('hero-line1', line1Text, 400, false);
-    initLine('hero-line2', line2Text, 400 + line1Text.length * 45, true);
+    window.renderHeroTitle = function (locale) {
+      if (!h1) return;
+      var currentLocale = locale === 'es' ? 'es' : 'en';
+      var line1Text = h1.getAttribute('data-line1-' + currentLocale) || '';
+      var line2Text = h1.getAttribute('data-line2-' + currentLocale) || '';
+      var shouldAnimate = !h1.dataset.heroRendered;
+      initLine('hero-line1', line1Text, shouldAnimate ? 400 : 0, false, shouldAnimate);
+      initLine('hero-line2', line2Text, shouldAnimate ? 400 + line1Text.length * 45 : 0, true, shouldAnimate);
+      h1.dataset.heroRendered = 'true';
+    };
+
+    window.renderHeroTitle(document.documentElement.dataset.locale || 'en');
 
     var scanline = document.getElementById('scanline');
     if (scanline) {

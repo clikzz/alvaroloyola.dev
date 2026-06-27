@@ -1,7 +1,7 @@
 ---
 import { certifications } from "@/data/content.js";
-import { t } from "@/lib/translate";
-import * as m from "@/paraglide/messages.js";
+import I18nText from "@/components/I18nText.astro";
+import { getMessage } from "@/lib/i18n";
 
 const INITIAL_COUNT = 3;
 const visibleCerts = certifications.slice(0, INITIAL_COUNT);
@@ -25,13 +25,13 @@ function formatDate(dateStr: string): string {
       class="reveal font-raleway font-semibold tracking-tight text-frost-white"
       style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
     >
-      {m.section_certifications_title()}
+      <I18nText keyName="section_certifications_title" />
     </h2>
 
     <div
       class="expandable-root"
-      data-expand-label={m.button_view_more()}
-      data-collapse-label={m.button_view_less()}
+      data-expand-label={getMessage("en", "button_view_more")}
+      data-collapse-label={getMessage("en", "button_view_less")}
     >
       <div
         class="visible-slot grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-10"
@@ -71,7 +71,7 @@ function formatDate(dateStr: string): string {
                         class="font-dm-sans font-semibold tracking-tight text-frost-white transition-colors duration-400"
                         style="font-size: 15px; line-height: 1.25; letter-spacing: -0.01em;"
                       >
-                        {t(cert.name)}
+                        <I18nText value={cert.name} />
                       </h3>
                       <div
                         class="flex items-center flex-wrap mt-1"
@@ -133,7 +133,7 @@ function formatDate(dateStr: string): string {
                             class="font-dm-sans font-semibold tracking-tight text-frost-white"
                             style="font-size: 15px; line-height: 1.25; letter-spacing: -0.01em;"
                           >
-                            {t(cert.name)}
+                            <I18nText value={cert.name} />
                           </h3>
                           <div
                             class="flex items-center flex-wrap mt-1"
@@ -167,7 +167,7 @@ function formatDate(dateStr: string): string {
                 style="padding: 6px 24px;"
                 aria-expanded="false"
               >
-                {m.button_view_more()}
+                <I18nText keyName="button_view_more" />
               </button>
             </div>
           </>
@@ -176,4 +176,3 @@ function formatDate(dateStr: string): string {
     </div>
   </div>
 </section>
-

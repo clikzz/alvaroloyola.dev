@@ -1,5 +1,5 @@
 ---
-import * as m from "@/paraglide/messages.js";
+import I18nText from "@/components/I18nText.astro";
 
 const year = new Date().getFullYear();
 ---
@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
       class="font-dm-sans font-normal tracking-tight"
       style="font-size: 12px; line-height: 1.32; color: rgba(255, 255, 255, 0.3); letter-spacing: 0.01em;"
     >
-      {m.footer_copyright({ year })}
+      <I18nText keyName="footer_copyright" values={{ year }} />
     </p>
     <div class="flex items-center" style="gap: 32px;">
       <a

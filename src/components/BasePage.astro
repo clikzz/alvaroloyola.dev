@@ -1,9 +1,6 @@
 ---
 import "@/styles/global.css";
 
-import { overwriteGetLocale } from "@/paraglide/runtime.js";
-import * as m from "@/paraglide/messages.js";
-
 import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Hero from "@/components/sections/Hero.astro";
@@ -12,6 +9,7 @@ import Experience from "@/components/sections/Experience.astro";
 import Certifications from "@/components/sections/Certifications.astro";
 import TechStack from "@/components/sections/TechStack.astro";
 import Contact from "@/components/sections/Contact.astro";
+import { getMessage, messages } from "@/lib/i18n";
 
 interface Props {
   locale: "en" | "es";
@@ -23,12 +21,18 @@ interface Props {
 }
 
 const { locale, canonical, ogTitle, ogDescription, skipLinkLabel, alternateHreflang } = Astro.props;
-
-overwriteGetLocale(() => locale);
+const clientTranslations = {
+  en: messages.en,
+  es: messages.es,
+};
+const metaDescriptions = {
+  en: "Full-stack developer crafting digital experiences with precision and creativity.",
+  es: "Desarrollador full-stack creando experiencias digitales con precisión y creatividad.",
+};
 ---
 
 <!doctype html>
-<html lang={locale} class="noise-overlay dot-grid-bg vignette">
+<html lang={locale} data-locale={locale} class="noise-overlay dot-grid-bg vignette">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -36,7 +40,7 @@ overwriteGetLocale(() => locale);
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={ogDescription} />
-    <title>{m.site_title()}</title>
+    <title>{getMessage("en", "site_title")}</title>
     <meta name="theme-color" content="#000000" />
     <link rel="canonical" href={canonical} />
     {alternateHreflang && <link rel="alternate" hreflang={alternateHreflang.lang} href={alternateHreflang.href} />}
@@ -73,6 +77,17 @@ overwriteGetLocale(() => locale);
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
     </style>
+    <script is:inline>
+      (function () {
+        try {
+          var locale = localStorage.getItem("preferred-locale");
+          if (locale === "en" || locale === "es") {
+            document.documentElement.lang = locale;
+            document.documentElement.dataset.locale = locale;
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">{skipLinkLabel}</a>
@@ -93,6 +108,111 @@ overwriteGetLocale(() => locale);
     <Footer />
 
     <div id="cursor-glow" class="cursor-glow" style="opacity: 0;" />
+
+    <script is:inline define:vars={{ translations: clientTranslations, metaDescriptions }}>
+      (function () {
+        function interpolate(template, values) {
+          return template.replace(/\{(\w+)\}/g, function (_, key) {
+            return values && values[key] != null ? String(values[key]) : "";
+          });
+        }
+
+        function resolveText(el, locale) {
+          var key = el.getAttribute("data-i18n");
+          var values = {};
+          try {
+            values = JSON.parse(el.getAttribute("data-i18n-values") || "{}");
+          } catch (e) {}
+          if (key && translations[locale][key]) {
+            return interpolate(translations[locale][key], values);
+          }
+          return el.getAttribute("data-i18n-" + locale) || "";
+        }
+
+        function setLocale(locale) {
+          if (locale !== "en" && locale !== "es") return;
+
+          document.documentElement.lang = locale;
+          document.documentElement.dataset.locale = locale;
+          document.title = translations[locale].site_title;
+
+          var description = document.querySelector('meta[name="description"]');
+          if (description) description.setAttribute("content", metaDescriptions[locale]);
+          var ogDescription = document.querySelector('meta[property="og:description"]');
+          if (ogDescription) ogDescription.setAttribute("content", metaDescriptions[locale]);
+          var twitterDescription = document.querySelector('meta[name="twitter:description"]');
+          if (twitterDescription) twitterDescription.setAttribute("content", metaDescriptions[locale]);
+
+          document.querySelectorAll("[data-i18n], [data-i18n-en][data-i18n-es]").forEach(function (el) {
+            el.textContent = resolveText(el, locale);
+          });
+
+          document.querySelectorAll("[data-i18n-attr]").forEach(function (el) {
+            var config;
+            try {
+              config = JSON.parse(el.getAttribute("data-i18n-attr") || "{}");
+            } catch (e) {
+              config = {};
+            }
+            Object.keys(config).forEach(function (attr) {
+              var key = config[attr];
+              if (translations[locale][key]) {
+                el.setAttribute(attr, translations[locale][key]);
+              }
+            });
+          });
+
+          document.querySelectorAll(".expandable-root").forEach(function (root) {
+            root.setAttribute("data-expand-label", translations[locale].button_view_more);
+            root.setAttribute("data-collapse-label", translations[locale].button_view_less);
+            var btn = root.querySelector(".toggle-btn");
+            if (btn && btn.getAttribute("aria-expanded") !== "true") {
+              btn.textContent = translations[locale].button_view_more;
+            }
+          });
+
+          document.querySelectorAll("[data-locale-option]").forEach(function (el) {
+            var isActive = el.getAttribute("data-locale-option") === locale;
+            el.setAttribute("aria-current", isActive ? "page" : "false");
+            el.classList.toggle("bg-frost-white", isActive);
+            el.classList.toggle("text-midnight-canvas", isActive);
+            el.classList.toggle("bg-transparent", !isActive);
+            el.classList.toggle("text-whisper-gray", !isActive);
+            el.classList.toggle("text-frost-white/40", !isActive && el.closest("#menu-locale"));
+          });
+
+          var emailBtn = document.getElementById("copy-email-btn");
+          if (emailBtn) {
+            emailBtn.setAttribute("data-success", translations[locale].contact_copy_success);
+            emailBtn.setAttribute("data-label", translations[locale].contact_copy_email);
+          }
+          var phoneBtn = document.getElementById("copy-phone-btn");
+          if (phoneBtn) {
+            phoneBtn.setAttribute("data-success", translations[locale].contact_copy_success);
+            phoneBtn.setAttribute("data-label", translations[locale].contact_copy_phone);
+          }
+
+          if (window.renderHeroTitle) {
+            window.renderHeroTitle(locale);
+          }
+
+          try {
+            localStorage.setItem("preferred-locale", locale);
+          } catch (e) {}
+        }
+
+        window.setPortfolioLocale = setLocale;
+
+        document.querySelectorAll("[data-locale-option]").forEach(function (control) {
+          control.addEventListener("click", function (event) {
+            event.preventDefault();
+            setLocale(control.getAttribute("data-locale-option"));
+          });
+        });
+
+        setLocale(document.documentElement.dataset.locale || "en");
+      })();
+    </script>
 
     <script is:inline>
       (function () {

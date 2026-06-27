@@ -1,6 +1,6 @@
 ---
 import type { Certification } from "@/data/content.js";
-import { t } from "@/lib/translate";
+import I18nText from "@/components/I18nText.astro";
 
 interface Props {
   cert: Certification;
@@ -36,7 +36,7 @@ function formatDate(dateStr: string): string {
       class="font-dm-sans font-semibold tracking-tight text-frost-white"
       style="font-size: 16px; line-height: 1.25; letter-spacing: -0.01em;"
     >
-      {t(cert.name)}
+      <I18nText value={cert.name} />
     </h3>
   </div>
   <div style="padding-left: 16px; display: flex; flex-direction: column; gap: 6px;">

@@ -1,0 +1,23 @@
+---
+import { getLocalizedText, getMessage, type MessageKey } from "@/lib/i18n";
+import type { LocalizedString } from "@/data/content";
+
+interface Props {
+  keyName?: MessageKey;
+  value?: LocalizedString;
+  values?: Record<string, string | number>;
+  class?: string;
+}
+
+const { keyName, value, values, class: className } = Astro.props;
+const en = value ? getLocalizedText(value, "en") : keyName ? getMessage("en", keyName, values) : "";
+const es = value ? getLocalizedText(value, "es") : keyName ? getMessage("es", keyName, values) : "";
+---
+
+<span
+  class={className}
+  data-i18n={keyName}
+  data-i18n-values={values ? JSON.stringify(values) : undefined}
+  data-i18n-en={en}
+  data-i18n-es={es}
+>{en}</span>

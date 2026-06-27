@@ -1,7 +1,7 @@
 ---
 import { projects } from "@/data/content.js";
-import { t } from "@/lib/translate";
-import * as m from "@/paraglide/messages.js";
+import I18nText from "@/components/I18nText.astro";
+import { getMessage } from "@/lib/i18n";
 
 const INITIAL_COUNT = 3;
 const visibleProjects = projects.slice(0, INITIAL_COUNT);
@@ -19,13 +19,13 @@ const accentHues = ["170", "35", "5", "200", "45", "15"];
       class="reveal font-raleway font-semibold tracking-tight text-frost-white"
       style="font-size: clamp(29px, 4vw, 42px); line-height: 1.15; margin-bottom: 56px; letter-spacing: -0.02em; position: relative; z-index: 1;"
     >
-      {m.section_projects_title()}
+      <I18nText keyName="section_projects_title" />
     </h2>
 
     <div
       class="expandable-root"
-      data-expand-label={m.button_view_more()}
-      data-collapse-label={m.button_view_less()}
+      data-expand-label={getMessage("en", "button_view_more")}
+      data-collapse-label={getMessage("en", "button_view_less")}
     >
       <div class="visible-slot" style="display: flex; flex-direction: column;">
         {
@@ -81,13 +81,13 @@ const accentHues = ["170", "35", "5", "200", "45", "15"];
                         class="font-dm-sans font-semibold tracking-tight text-frost-white transition-colors duration-400 group-hover:text-frost-white"
                         style="font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 6px;"
                       >
-                        {t(project.title)}
+                        <I18nText value={project.title} />
                       </h3>
                       <p
                         class="font-dm-sans font-normal tracking-tight"
                         style="font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.38); letter-spacing: -0.005em; max-width: 560px;"
                       >
-                        {t(project.shortDescription)}
+                        <I18nText value={project.shortDescription} />
                       </p>
                       <div class="flex flex-wrap mt-4" style="gap: 8px;">
                         {project.tags.map((tag) => (
@@ -190,13 +190,13 @@ const accentHues = ["170", "35", "5", "200", "45", "15"];
                             class="font-dm-sans font-semibold tracking-tight text-frost-white"
                             style="font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 6px;"
                           >
-                            {t(project.title)}
+                            <I18nText value={project.title} />
                           </h3>
                           <p
                             class="font-dm-sans font-normal tracking-tight"
                             style="font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.38); letter-spacing: -0.005em; max-width: 560px;"
                           >
-                            {t(project.shortDescription)}
+                            <I18nText value={project.shortDescription} />
                           </p>
                           <div class="flex flex-wrap mt-4" style="gap: 8px;">
                             {project.tags.map((tag) => (
@@ -250,7 +250,7 @@ const accentHues = ["170", "35", "5", "200", "45", "15"];
                 style="padding: 6px 24px;"
                 aria-expanded="false"
               >
-                {m.button_view_more()}
+                <I18nText keyName="button_view_more" />
               </button>
             </div>
           </>
@@ -259,4 +259,3 @@ const accentHues = ["170", "35", "5", "200", "45", "15"];
     </div>
   </div>
 </section>
-
