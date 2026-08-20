@@ -208,6 +208,16 @@ export const experiences: Experience[] = [
 
 export const certifications: Certification[] = [
   {
+    id: "claude-code-in-action",
+    name: {
+      en: "Claude Code in Action",
+      es: "Claude Code en Acción",
+    },
+    issuer: "Anthropic",
+    date: "2025-05",
+    link: "https://verify.skilljar.com/c/wmk6pgvt455p",
+  },
+  {
     id: "typescript-sin-fronteras",
     name: {
       en: "TypeScript Without Borders",
